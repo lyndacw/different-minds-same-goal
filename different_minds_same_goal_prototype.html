@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171b3b">
+<title>Different Minds, Same Goal</title>
+<style>
+:root{--ink:#202447;--purple:#7256c8;--pale:#f1edff;--bg:#f8f7fc;--muted:#656b83}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#171b3b;color:white;padding:22px 18px;text-align:center}
+header h1{font-size:clamp(1.5rem,5vw,2.4rem);margin:0;letter-spacing:.04em}header p{margin:7px 0 0;color:#d9d3ff}
+main{max-width:850px;margin:auto;padding:18px}
+.panel{background:white;border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 5px 22px #25204b10}
+h2{margin:0 0 12px;font-size:1.35rem}p{line-height:1.55}
+button,input{font:inherit}button{border:0;border-radius:14px;padding:13px 16px;background:var(--pale);color:var(--ink);font-weight:650;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid #edaa42;outline-offset:3px}
+button.primary{background:var(--purple);color:white}button.selected{outline:3px solid var(--purple);background:#e5ddff}
+button:active{transform:scale(.98)}
+.choices,.worlds,.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.choice{min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+.emoji{font-size:2rem}.sub{font-size:.9rem;color:var(--muted)}
+input{width:100%;padding:12px;border:1px solid #c9c7d5;border-radius:12px;margin:7px 0 12px}
+.hidden{display:none!important}.feedback{padding:14px;border-radius:14px;background:#edf7ef;margin-top:12px}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:15px}
+.small{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><h1>DIFFERENT MINDS, SAME GOAL</h1><p>Different paths. Endless possibilities.</p></header>
+<main>
+<section id="welcome" class="panel">
+<h2>Welcome to your world ✨</h2>
+<p>This is your space. There are no wrong choices. You choose what to explore, and you can change your mind whenever you like.</p>
+<button class="primary" onclick="show('setup')">Let's explore</button>
+</section>
+<section id="setup" class="panel hidden">
+<h2>Choose the world that feels right</h2>
+<p class="sub">You can change this choice at any time.</p>
+<div class="choices">
+<button class="choice" data-style="younger" onclick="selectStyle('younger',this)"><span class="emoji">🪄</span>Little Explorers<span class="small">Playful and colourful</span></button>
+<button class="choice" data-style="older" onclick="selectStyle('older',this)"><span class="emoji">🌌</span>Next Explorers<span class="small">Modern and immersive</span></button>
+</div>
+<h2 style="margin-top:22px">Choose your environment</h2>
+<div class="choices">
+<button onclick="selectMood('playful',this)">🎨 Playful</button><button onclick="selectMood('calm',this)">🌿 Calm</button>
+</div>
+<h2 style="margin-top:22px">Choose a companion (optional)</h2>
+<div class="choices">
+<button onclick="selectAvatar('🦊',this)">🦊 Fox</button><button onclick="selectAvatar('🐼',this)">🐼 Panda</button><button onclick="selectAvatar('🐉',this)">🐉 Dragon</button><button onclick="selectAvatar('🤖',this)">🤖 Robot</button><button onclick="selectAvatar('🐱',this)">🐱 Cat</button><button onclick="selectAvatar('🦄',this)">🦄 Unicorn</button>
+</div>
+<label for="explorerName">What would you like us to call you? (optional)</label>
+<input id="explorerName" maxlength="24" placeholder="Explorer">
+<button class="primary" onclick="enterWorld()">Enter my world</button>
+</section>
+<section id="home" class="panel hidden">
+<p class="small" id="greeting">WELCOME, EXPLORER</p>
+<h2>YOUR WORLD. YOUR CHOICES. WHERE TO FIRST?</h2>
+<p>Your space. Your pace. Your adventure.</p>
+<div class="worlds">
+<button class="choice" onclick="openActivity('stories')"><span class="emoji">📚</span>Stories &amp; Sounds<span class="small">Words and imagination</span></button>
+<button class="choice" onclick="openActivity('puzzles')"><span class="emoji">🧩</span>Puzzles &amp; Patterns<span class="small">Numbers and problem-solving</span></button>
+<button class="choice" onclick="openActivity('everyday')"><span class="emoji">🌍</span>Everyday Adventures<span class="small">Real-life skills</span></button>
+<button class="choice" onclick="openActivity('create')"><span class="emoji">🎨</span>Create &amp; Discover<span class="small">Creativity and curiosity</span></button>
+</div>
+<div style="margin-top:18px"><button onclick="show('setup')">Change my world</button></div>
+</section>
+<section id="activity" class="panel hidden">
+<div id="activityContent"></div>
+<div id="myWay" class="panel" style="background:#f6f3ff">
+<h2>My Way 💜</h2><p class="sub">How are you feeling about this?</p>
+<div class="actions">
+<button onclick="myChoice('easier')">Make it easier</button><button onclick="myChoice('different')">Something different</button><button onclick="myChoice('help')">Can you help?</button><button onclick="myChoice('break')">I need a break</button><button onclick="myChoice('finished')">I'm finished</button>
+</div><div id="response" aria-live="polite"></div>
+</div>
+<button onclick="show('home')">← Back to my world</button>
+</section>
+<section id="break" class="panel hidden">
+<h2>🌿 Take all the time you need</h2><p>Rest, breathe, have a drink or simply do nothing. Nothing is timed. You can return whenever you're ready.</p>
+<button class="primary" onclick="show('home')">Return when I'm ready</button>
+</section>
+<footer>This is an early demonstration. It does not create accounts or save personal information.</footer>
+</main>
+<script>
+let styleChoice='',moodChoice='playful',avatar='🦊',current='stories';
+function show(id){['welcome','setup','home','activity','break'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));window.scrollTo(0,0)}
+function mark(btn,group){document.querySelectorAll(group).forEach(x=>x.classList.remove('selected'));btn.classList.add('selected')}
+function selectStyle(v,b){styleChoice=v;mark(b,'[data-style]')}
+function selectMood(v,b){moodChoice=v;mark(b,'#setup .choices button')}
+function selectAvatar(v,b){avatar=v;document.querySelectorAll('#setup .choices button').forEach(x=>{if(['🦊','🐼','🐉','🤖','🐱','🦄'].some(e=>x.textContent.includes(e)))x.classList.remove('selected')});b.classList.add('selected')}
+function enterWorld(){let n=document.getElementById('explorerName').value.trim()||'Explorer';document.getElementById('greeting').textContent='WELCOME, '+n.toUpperCase()+' '+avatar;show('home')}
+function openActivity(which){current=which;let c=document.getElementById('activityContent');let content={
+stories:'<h2>📚 The Missing Word</h2><p>The little cat found a red…</p><div class="choices"><button onclick="storyAnswer(this)">🔴 Ball</button><button onclick="storyAnswer(this)">🌳 Tree</button><button onclick="storyAnswer(this)">🚀 Rocket</button></div><div id="activityFeedback" class="feedback hidden" aria-live="polite"></div>',
+puzzles:'<h2>🧩 Count the stars</h2><p>How many stars can you see?</p><p style="font-size:2rem">⭐ ⭐ ⭐ ⭐ ⭐</p><div class="choices"><button onclick="numberAnswer(3)">3</button><button onclick="numberAnswer(5)">5</button><button onclick="numberAnswer(7)">7</button></div><div id="activityFeedback" class="feedback hidden" aria-live="polite"></div>',
+everyday:'<h2>🌍 Shopping choices</h2><p>You have £2. What would you like to put in your basket?</p><div class="choices"><button onclick="shopAnswer(1)">🍎 Apple · £1</button><button onclick="shopAnswer(2)">🍪 Biscuit · £2</button><button onclick="shopAnswer(0)">👀 Just looking</button></div><div id="activityFeedback" class="feedback hidden" aria-live="polite"></div>',
+create:'<h2>🎨 Make something up</h2><p>Choose an idea for your imaginary world. You can combine ideas or invent your own.</p><div class="choices"><button onclick="createAnswer('+"'"+'🌈'+"'"+')">🌈 Rainbow</button><button onclick="createAnswer('+"'"+'🏰'+"'"+')">🏰 Castle</button><button onclick="createAnswer('+"'"+'🚀'+"'"+')">🚀 Space ship</button></div><div id="activityFeedback" class="feedback hidden" aria-live="polite"></div>'
+};c.innerHTML=content[which];document.getElementById('response').textContent='';show('activity')}
+function feedback(t){let f=document.getElementById('activityFeedback');f.textContent=t;f.classList.remove('hidden')}
+function storyAnswer(b){feedback('You chose '+b.textContent+'. Stories can go in lots of directions! What happens next is up to you.')}
+function numberAnswer(n){feedback(n===5?'You spotted five stars!':'You had a go at counting. Would you like to count together or try another activity?')}
+function shopAnswer(cost){feedback(cost===0?'Looking around is a perfectly good choice.': 'You chose an item costing £'+cost+'. You would have £'+(2-cost)+' left.')}
+function createAnswer(e){feedback('Your world includes '+e+'. What else might live there?')}
+function myChoice(v){let r={easier:'We can make this simpler, add a picture or take one small step.',different:'Of course. You can choose another world whenever you want.',help:'Let’s try together. You can ask for a hint or see an example.',break:'You deserve a pause. Nothing is lost. Take the time you need.',finished:'Thanks for exploring. You can stop here or choose something else.'};document.getElementById('response').innerHTML='<div class="feedback">'+r[v]+'</div>';if(v==='break')setTimeout(()=>show('break'),350);if(v==='different')setTimeout(()=>show('home'),900);if(v==='finished')setTimeout(()=>show('home'),900)}
+</script>
+</body></html>
